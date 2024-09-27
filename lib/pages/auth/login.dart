@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gerenciador_bovino/repositories/user_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  late String email;
+  late String password;
+  late UserRepository userRepository;
+
+  Login({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 42, 60, 71),
-          iconTheme: const IconThemeData(color: Color.fromARGB(255, 235, 231, 217),),
+          iconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 235, 231, 217),
+          ),
         ),
         body: Stack(
           children: [
@@ -36,17 +42,19 @@ class Login extends StatelessWidget {
                       style: GoogleFonts.anton(
                           fontSize: 24, fontWeight: FontWeight.normal),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(20),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
                       child: TextField(
-                        decoration: InputDecoration(
+                        onChanged: (value) => {email = value},
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Email")),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(20),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
                       child: TextField(
-                        decoration: InputDecoration(
+                        onChanged: (value) => {password = value},
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Senha")),
                       ),
                     ),
@@ -54,21 +62,23 @@ class Login extends StatelessWidget {
                       width: 300,
                       height: 65,
                       child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () => {
+                                userRepository.userSignIn(
+                                    context, email, password)
+                              },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 42, 60, 71), 
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                            )
-                          ),
-                          child: Text("ENTRAR",
+                              backgroundColor:
+                                  const Color.fromARGB(255, 42, 60, 71),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            "ENTRAR",
                             style: GoogleFonts.anton(
                               fontSize: 35,
                               color: const Color.fromARGB(255, 235, 231, 217),
                             ),
-                          )
-                      ),
+                          )),
                     )
                   ],
                 ),

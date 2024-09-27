@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciador_bovino/pages/auth/cadastro.dart';
+import 'package:gerenciador_bovino/pages/auth/register.dart';
 import 'package:gerenciador_bovino/pages/auth/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,10 +47,8 @@ class Initial extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () => {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Login()))
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()))
                     },
                     child: Container(
                       width: 300,
@@ -60,19 +58,20 @@ class Initial extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       child: Center(
-                        child: Text("Login", 
+                        child: Text(
+                          "Login",
                           style: GoogleFonts.anton(fontSize: 35),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   GestureDetector(
                     onTap: () => {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Cadastro()))
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Register()))
                     },
                     child: Container(
                       width: 300,
@@ -81,9 +80,9 @@ class Initial extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         color: Colors.amber,
                       ),
-
                       child: Center(
-                        child: Text("Cadastro",
+                        child: Text(
+                          "Cadastro",
                           style: GoogleFonts.anton(fontSize: 35),
                         ),
                       ),

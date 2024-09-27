@@ -1,47 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gerenciador_bovino/repositories/user_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class Cadastro extends StatelessWidget {
-  const Cadastro({super.key});
+class Register extends StatelessWidget {
+  late String email;
+  late String password;
+  late UserRepository userRepository;
 
-  // void listenToAuthState() {
-  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-  //     if (user == null) {
-  //       print('User is currently signed out!');
-  //     } else {
-  //       print('User is signed in!');
-  //     }
-  //   });
-  // }
-
-  void _cadastrarUsuario(
-      BuildContext context, String email, String senha) async {
-    try {
-      if (email.isNotEmpty && senha.isNotEmpty) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: senha,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Usuário cadastrado com sucesso!')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Preencha todos os campos')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro: $e')),
-      );
-    }
-  }
+  Register({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String email = '';
-    String senha = '';
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 42, 60, 71),
@@ -76,9 +45,7 @@ class Cadastro extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: TextField(
-                        onChanged: (value) => {
-                          email = value
-                        },
+                        onChanged: (value) => {email = value},
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Email")),
                       ),
@@ -86,9 +53,7 @@ class Cadastro extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: TextField(
-                        onChanged: (value) => {
-                          senha = value
-                        },
+                        onChanged: (value) => {password = value},
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Senha")),
                       ),
@@ -97,7 +62,10 @@ class Cadastro extends StatelessWidget {
                       width: 300,
                       height: 65,
                       child: ElevatedButton(
-                          onPressed: () => {_cadastrarUsuario(context, email, senha)},
+                          onPressed: () => {
+                                userRepository.createUser(
+                                    context, email, password)
+                              },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 42, 60, 71),
