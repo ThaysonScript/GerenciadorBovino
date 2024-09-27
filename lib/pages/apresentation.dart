@@ -13,7 +13,7 @@ class _ApresentationState extends State<Apresentation> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context, 
         MaterialPageRoute(builder: (context) => const Initial())
