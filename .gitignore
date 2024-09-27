@@ -1,3 +1,7 @@
+#personal
+android/app/google*
+.vscode
+
 # Miscellaneous
 *.class
 *.log
