@@ -94,6 +94,7 @@ flutter:
   assets:
     - assets/images/gerenciador_bovino_logo.png
     - assets/images/bovino02.jpg
+    - assets/images_example/boi.jpeg
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

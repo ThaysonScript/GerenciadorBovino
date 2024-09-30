@@ -29,7 +29,13 @@ class Initial extends StatelessWidget {
                   ),
                   Text("Gerenciador Bovino",
                       style: GoogleFonts.anton(
-                          fontSize: 40, fontWeight: FontWeight.normal)),
+                          fontSize: 40, 
+                          fontWeight: FontWeight.normal
+                      )
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 20,
@@ -44,6 +50,9 @@ class Initial extends StatelessWidget {
                       textAlign: TextAlign.justify,
                       style: GoogleFonts.anton(fontSize: 16),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   GestureDetector(
                     onTap: () => {
@@ -66,7 +75,7 @@ class Initial extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
                   GestureDetector(
                     onTap: () => {

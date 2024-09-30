@@ -5,12 +5,12 @@ import 'firebase_options.dart';
 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
-  // Inicializa o Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // // Inicializa o Firebase
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   runApp(const Main());
 }

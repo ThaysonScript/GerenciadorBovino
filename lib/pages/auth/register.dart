@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciador_bovino/repositories/user_repository.dart';
+import 'package:gerenciador_bovino/models/app_user.dart';
+import 'package:gerenciador_bovino/pages/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Register extends StatelessWidget {
-  late String email;
-  late String password;
-  late UserRepository userRepository;
+  AppUser user = AppUser();
 
   Register({super.key});
 
@@ -45,7 +44,15 @@ class Register extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: TextField(
-                        onChanged: (value) => {email = value},
+                        onChanged: (value) => {user.name = value},
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(), label: Text("Nome")),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: TextField(
+                        onChanged: (value) => {user.email = value},
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Email")),
                       ),
@@ -53,7 +60,7 @@ class Register extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: TextField(
-                        onChanged: (value) => {password = value},
+                        onChanged: (value) => {user.password = value},
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(), label: Text("Senha")),
                       ),
@@ -63,8 +70,10 @@ class Register extends StatelessWidget {
                       height: 65,
                       child: ElevatedButton(
                           onPressed: () => {
-                                userRepository.createUser(
-                                    context, email, password)
+                                user.createUser(context, user.email, user.password),
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Home(user)))
                               },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
