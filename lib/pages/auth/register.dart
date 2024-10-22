@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gerenciador_bovino/facade/firebase_facade.dart';
 import 'package:gerenciador_bovino/models/app_user.dart';
 import 'package:gerenciador_bovino/pages/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Register extends StatelessWidget {
-  AppUser user = AppUser();
+  final AppUser user = AppUser();
+  final FirebaseFacade firebaseFacade = FirebaseFacade();
 
   Register({super.key});
 
@@ -70,10 +72,12 @@ class Register extends StatelessWidget {
                       height: 65,
                       child: ElevatedButton(
                           onPressed: () => {
-                                user.createUser(context, user.email, user.password),
+                                firebaseFacade.register(
+                                    context, user.email, user.password),
                                 Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Home(user)))
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(user)))
                               },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gerenciador_bovino/facade/firebase_facade.dart';
 import 'package:gerenciador_bovino/models/app_user.dart';
 import 'package:gerenciador_bovino/pages/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatelessWidget {
   AppUser user = AppUser();
+  final firebaseFacade = FirebaseFacade();
 
   Login({super.key});
 
@@ -62,7 +64,7 @@ class Login extends StatelessWidget {
                       height: 65,
                       child: ElevatedButton(
                           onPressed: () => {
-                                user.userSignIn(
+                                firebaseFacade.login(
                                     context, user.email, user.password),
                                 Navigator.pushReplacement(
                                     context,
