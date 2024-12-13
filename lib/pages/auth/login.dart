@@ -63,14 +63,25 @@ class Login extends StatelessWidget {
                       width: 300,
                       height: 65,
                       child: ElevatedButton(
-                          onPressed: () => {
-                                firebaseFacade.login(
-                                    context, user.email, user.password),
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home(user)))
-                              },
+                          onPressed: () async {
+                            try {
+                              await firebaseFacade.login(
+                                  context, user.email, user.password);
+
+                              // Obter o nome do usuário logado (assumindo que FirebaseFacade pode fornecer essa info)
+                              final loggedUser =
+                                  firebaseFacade.getCurrentUser();
+                              user.name = loggedUser?.displayName ?? 'Usuário';
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home(user)),
+                              );
+                            } catch (e) {
+                              print("Erro ao fazer login: $e");
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 42, 60, 71),

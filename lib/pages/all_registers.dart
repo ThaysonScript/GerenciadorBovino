@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gerenciador_bovino/data/data.dart';
 import 'package:gerenciador_bovino/pages/categories/info_visualization.dart';
@@ -56,7 +58,9 @@ class AllRegisters extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Image.asset('$images'),
+                        '$images'.isNotEmpty
+                                    ? Image.file(File('$images'))
+                                    : const Icon(Icons.image),
                         const SizedBox(width: 5),
                         const VerticalDivider(
                           thickness: 3,

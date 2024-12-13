@@ -8,59 +8,57 @@ class Initial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        body: Stack(
-      children: [
-        Image.asset("assets/images/bovino02.jpg"),
-        Padding(
-          padding: const EdgeInsets.only(top: 370),
-          child: Container(
+      body: Stack(
+        children: [
+          Expanded(
+            child: Container(
               width: double.infinity,
-              height: double.infinity,
+              padding: const EdgeInsets.only(bottom: 20),
               decoration: const BoxDecoration(
-                  color: Color.fromRGBO(235, 231, 217, 1),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40))),
+                color: Color.fromRGBO(235, 231, 217, 1),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+              ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 20,
+                  Image.asset(
+                    "assets/images/bovino02.jpg",
+                    width: screenWidth,
+                    height: screenHeight * 0.46, // 40% da altura da tela
+                    fit: BoxFit.cover,
                   ),
-                  Text("Gerenciador Bovino",
-                      style: GoogleFonts.anton(
-                          fontSize: 40, 
-                          fontWeight: FontWeight.normal
-                      )
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
+                  Text(
+                    "Gerenciador Bovino",
+                    style: GoogleFonts.anton(
+                      fontSize: 40,
+                      fontWeight: FontWeight.normal,
                     ),
-                    child: Text(
-                      '''
-                        Lorem ipsum dolor sit amet. Est voluptas enim ut inventore voluptatem  sit magnam harum.
-                        Non minima laboriosam ad pariatur omnis aut maiores  quaerat non dolores dolores.
-                        Qui quos sunt et consequatur inventore id  suscipit delectus et dolores maiores.
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    '''
+                        Lorem ipsum dolor sit amet. Est voluptas enim ut inventore voluptatem sit magnam harum.
+                        Non minima laboriosam ad pariatur omnis aut maiores quaerat non dolores dolores.
+                        Qui quos sunt et consequatur inventore id suscipit delectus et dolores maiores.
                         ''',
-                      textAlign: TextAlign.justify,
-                      style: GoogleFonts.anton(fontSize: 16),
-                    ),
+                    textAlign: TextAlign.justify,
+                    style: GoogleFonts.anton(fontSize: 16),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()))
-                    },
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    ),
                     child: Container(
-                      width: 300,
+                      width: screenWidth * 0.7, // 70% da largura da tela
                       height: 60,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -74,16 +72,14 @@ class Initial extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Register()))
-                    },
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Register()),
+                    ),
                     child: Container(
-                      width: 300,
+                      width: screenWidth * 0.7, // 70% da largura da tela
                       height: 60,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -96,11 +92,13 @@ class Initial extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
-              )),
-        ),
-      ],
-    ));
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

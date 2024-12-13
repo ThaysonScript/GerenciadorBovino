@@ -22,3 +22,39 @@ class Data {
     ]
   };
 }
+
+
+/**
+
+EP, 12
+Comprado 10/05/2022, R$ (1.750)
+Phenobral 26/07/2022
+Master lp 27/07/2022
+Phenobral 12/10/2022
+Phenobral 16/10/2022
+Peso, 10/05/2022, (229)kg
+Peso, 26/07/2022, (238)kg
+Peso, 02/11/2022, (278)kg
+Óleo all atack, 02/11/2022
+Brinco colocado 02/11/2022
+Phenobral 11/02/2023
+Fluatac 11/02/2023
+Phenobral,  15/02/2023
+Fluatac 07/04/2023
+Master lp 10/06/2023
+Master lp 01/07/2023
+Actyl 15/07/2023
+Colosso 15/07/2023
+Catol 05/08/2023
+ADE 07/09/2023
+Actyl 09/09/2023
+Pirosam 09/09/2023
+Terramicina 09/09/2023
+Peso 09/09/2023 (304)kg 
+ADE 23/09/2023
+Topline 26/09/2023
+ADE 09/10/2023
+Peso 08/11/2023 (356)kg 
+Topline 04/02/2024
+
+ */

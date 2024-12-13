@@ -1,16 +1,27 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:gerenciador_bovino/components/layout/responsive_layout.dart';
 import 'package:gerenciador_bovino/pages/apresentation.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+      sqfliteFfiInit(); // Inicializa o suporte FFI
+      databaseFactory = databaseFactoryFfi; // Define o factory para FFI
+    }
 
-  if (defaultTargetPlatform == TargetPlatform.android) {
+
+    WidgetsFlutterBinding.ensureInitialized();
+    // Inicializa o Firebase com as configurações corretas para a plataforma
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+      options: DefaultFirebaseOptions.currentPlatform, // Usará Web se for Linux
     );
+  } catch (e) {
+    print(e);
   }
 
   runApp(const Main());
@@ -21,10 +32,13 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "gerenciador_bovino",
-      home: Apresentation(),
+    return MaterialApp(
+      home: Builder(
+        builder: (context) {
+          ResponsiveLayout.init(context);
+          return Apresentation();
+        },
+      ),
     );
   }
 }
