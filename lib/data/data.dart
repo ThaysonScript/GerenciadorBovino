@@ -25,6 +25,44 @@ class Data {
 
 
 /**
+ * 
+ * BOVINO
+ * 
+ * nome
+ * idade = null
+ * imagens
+ * data_compra
+ * preco_compra
+ * peso
+ * data_peso
+ * vacinas_associadas
+ * acessorios_associados
+ * 
+ * 
+ * VACINA
+ * 
+ * nome
+ * imagens
+ * preco_compra
+ * data_compra
+ * qtd_aplicacoes = [int: qtd aplicada, Double: mls aplicados/null, int: dose em comprimido por exemplo/algo parecido]
+ * vencimento
+ * bovinosPertencentes
+ * 
+ * 
+ * ACESSORIOS
+ * 
+ * nome
+ * imagens
+ * preco_compra
+ * data_compra
+ * qtd_aplicacoes = [int: qtd aplicada]
+ * vencimento
+ * bovinosPertencentes
+
+
+
+
 
 EP, 12
 Comprado 10/05/2022, R$ (1.750)

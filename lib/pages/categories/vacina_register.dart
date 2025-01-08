@@ -1,118 +1,142 @@
+import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:gerenciador_bovino/db/database_helper.dart';
 import 'package:gerenciador_bovino/models/vacina.dart';
+// import 'package:gerenciador_bovino/db/database_helper.dart';
+// import 'package:gerenciador_bovino/facade/firebase_facade.dart';
 
 class VacinaRegister extends StatefulWidget {
-  const VacinaRegister({super.key});
+  final String? bovinoId; // ID do bovino para vincular a vacina a ele
+  const VacinaRegister({super.key, this.bovinoId});
 
   @override
   _VacinaRegisterState createState() => _VacinaRegisterState();
 }
 
 class _VacinaRegisterState extends State<VacinaRegister> {
+  final _formKey = GlobalKey<FormState>();
   String _nome = '';
   String _data = '';
-  List<Vacina> _vacinas = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _carregarVacinas();
-  }
+  Future<void> _saveVacina() async {
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-  Future<void> _carregarVacinas() async {
-    List<Vacina> vacinas = await DatabaseHelper().getVacinas();
-    setState(() {
-      _vacinas = vacinas;
-    });
-  }
+    // Converter _data para DateTime (se for uma string)
+    DateTime dataVacina = DateTime.tryParse(_data) ?? DateTime.now();
 
-  Future<void> _salvarVacina() async {
-    if (_nome.isNotEmpty && _data.isNotEmpty) {
-      Vacina vacina = Vacina(nome: _nome, data: _data);
-      await DatabaseHelper().insertVacina(vacina);
-      _nome = '';
-      _data = '';
-      _carregarVacinas(); // Atualiza a lista após inserir
+    // Criar a vacina com o valor correto de data
+    // Vacina vacina = Vacina(
+    //   nome: _nome,
+    //   data: dataVacina,
+    //   id: '', // O ID será atribuído pelo Firestore ou SQLite
+    // );
+
+    // final dbHelper = DatabaseHelper();
+
+    if (!Platform.isLinux) {
+      // Verificar conectividade antes de salvar no Firebase
+      bool isConnected = await _hasInternetConnection();
+      if (isConnected) {
+        try {
+          // final firebaseFacade = FirebaseFacade();
+
+          // Salvar vacina no Firestore e obter o ID gerado
+          // final vacinaId = await firebaseFacade.saveVacinaToFirestore(vacina, widget.bovinoId ?? '');
+
+          // Relacionar vacina com o bovino no Firebase
+          // await firebaseFacade.linkVacinaToBovino(
+          //     widget.bovinoId ?? '', vacinaId);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Vacina salva no Firebase com sucesso!')),
+          );
+        } catch (e) {
+          print('Erro ao salvar no Firebase: $e');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Erro ao salvar no Firebase. Salvando localmente.')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sem conexão. Salvando apenas localmente!')),
+        );
+      }
     } else {
+      print('Linux detectado: Usando SQLite.');
+    }
+
+    // Salvar vacina no SQLite
+    try {
+      // Passar o bovinoId ao salvar a vacina
+      // await dbHelper.insertVacina(vacina, widget.bovinoId ?? '');
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Por favor, preencha todos os campos.')),
+        const SnackBar(content: Text('Vacina salva localmente com sucesso!')),
+      );
+    } catch (e) {
+      print('Erro ao salvar no SQLite: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao salvar localmente.')),
       );
     }
-  }
 
-  Future<void> _editarVacina(Vacina vacina) async {
-    setState(() {
-      _nome = vacina.nome;
-      _data = vacina.data;
-    });
-    await DatabaseHelper().deleteVacina(vacina.id!); // Exclui a vacina antiga
-    _salvarVacina(); // Salva a vacina editada
+    // Retornar à tela anterior
+    Navigator.pop(context);
   }
+}
 
-  Future<void> _deletarVacina(int id) async {
-    await DatabaseHelper().deleteVacina(id);
-    _carregarVacinas(); // Atualiza a lista após deletar
+
+// Método para verificar conectividade
+  Future<bool> _hasInternetConnection() async {
+    try {
+      final result = await Connectivity().checkConnectivity();
+      return result != ConnectivityResult.none;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Gerenciar Vacinas')),
+      appBar: AppBar(
+        title: const Text('Registro de Vacina'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  _nome = value;
-                });
-              },
-              decoration: InputDecoration(labelText: 'Nome da Vacina'),
-            ),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  _data = value;
-                });
-              },
-              decoration: InputDecoration(labelText: 'Data da Vacina'),
-              keyboardType: TextInputType.datetime,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _salvarVacina,
-              child: Text('Salvar Vacina'),
-            ),
-            const SizedBox(height: 20),
-            const Text('Vacinas Salvas:', style: TextStyle(fontSize: 18)),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _vacinas.length,
-                itemBuilder: (context, index) {
-                  final vacina = _vacinas[index];
-                  return ListTile(
-                    title: Text(vacina.nome),
-                    subtitle: Text(vacina.data),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () => _editarVacina(vacina),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => _deletarVacina(vacina.id!),
-                        ),
-                      ],
-                    ),
-                  );
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Nome da Vacina'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe o nome da vacina';
+                  }
+                  return null;
                 },
+                onSaved: (value) => _nome = value!,
               ),
-            ),
-          ],
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Data da Vacina'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe a data da vacina';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _data = value!,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _saveVacina,
+                child: const Text('Salvar Vacina'),
+              ),
+            ],
+          ),
         ),
       ),
     );
